@@ -10,7 +10,14 @@ class Scraper{
   }
   public function getURL()
   {
-    return "http://localhost:8080";
+    //if(isset($_GET[URL])){
+		//$var = "hoj";
+		//echo "hoj";
+    if(isset($_GET['URL'])){
+		return $_GET['URL'];
+    }
+    return $_GET['URL'];
+    //return "http://localhost:8080";
   }
 
   public function GetLinkToCalenders()
@@ -58,7 +65,7 @@ class Scraper{
       return $this->xpath;
     }
     else {
-      die("hoj hoj nu blev det fel");
+      //die("hoj hoj nu blev det fel");
     }
   }
 
@@ -76,16 +83,83 @@ class Scraper{
 //  var_dump($theDaysThatWorks);
     $arrayOfLinks = array();
     foreach ($items as $item) {
-    echo $item->nodeValue."";
-    echo $theDaysThatWorks[0]."<br />";
+  //  echo $item->nodeValue."";
+    //echo $theDaysThatWorks[0]."<br />";
       if(in_array($item->nodeValue, $theDaysThatWorks)){
 
-        array_push($arrayOfLinks, $item->nodeValue );
+        array_push($arrayOfLinks, $item->getAttribute("value") );
       }
     //array_push($arrayOfLinks, $item->getAttribute("href"));
     }
-    var_dump($arrayOfLinks);
+  //  var_dump($arrayOfLinks);
     return $arrayOfLinks;
+  }
+
+  public function getMovieLink(){
+    $items = $this->getDOM($this->GetLinkToMovies())->query("//div /div /form /select[@id='movie'] /option");
+//  var_dump($theDaysThatWorks);
+    $arrayOfLinks = array();
+    $arrayOfNames = array();
+    $arrayWithBothLinkAndNames = array();
+    foreach ($items as $item) {
+      //var_dump("<br />".$item->getAttribute("value")."<br />");
+    array_push($arrayOfLinks, $item->getAttribute("value"));
+    array_push($arrayOfNames, $item->nodeValue);
+    }
+    array_push($arrayWithBothLinkAndNames, $arrayOfLinks);
+    array_push($arrayWithBothLinkAndNames, $arrayOfNames);
+    //var_dump($arrayOfLinks);
+    return $arrayWithBothLinkAndNames;
+  }
+
+  public function getMovieName(){
+    $items = $this->getDOM($this->GetLinkToMovies())->query("//div /div /form /select[@id='movie'] /option");
+//  var_dump($theDaysThatWorks);
+    $arrayOfNames = array();
+    foreach ($items as $item) {
+      //var_dump("<br />".$item->getAttribute("value")."<br />");
+    array_push($arrayOfNames, $item->nodeValue);
+    }
+    //var_dump($arrayOfLinks);
+    return $arrayOfNames;
+  }
+
+  public function getMovies($daysOK, $movies)
+  {
+
+    $araryWithInfoAboutMoviesAndDates = array();
+
+    foreach ($daysOK as $day) {
+      foreach ($movies[0] as $movie) {
+        $var = $this->getHTML("http://localhost:8080/cinema/check?day=".$day."&movie=".$movie);
+        foreach (json_decode($var) as $key => $value) {
+          if($value->status == 1){
+            if ($value->movie == 01) {
+              $movieNameHolder = $movies[1][1];
+            }
+            elseif ($value->movie == 02) {
+              $movieNameHolder = $movies[1][2];
+            }
+            elseif ($value->movie == 03) {
+              $movieNameHolder = $movies[1][3];
+            }
+          $result[] = array(
+            "time" => $value->time,
+            "movieid" => $value->movie,
+            "movieName" =>$movieNameHolder,
+            "day" =>$day
+
+          );}
+          array_push($araryWithInfoAboutMoviesAndDates, $result);
+      }
+      }
+
+    }
+
+    // echo "<pre>";
+    //   print_r($result[2]['time']);
+    // echo "</pre>";
+    return $result;
   }
 
   public function getThePersonsDates($ArrayOfLinksToCallenders)
