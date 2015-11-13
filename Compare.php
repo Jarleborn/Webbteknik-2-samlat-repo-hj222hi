@@ -9,25 +9,24 @@ class compare
   }
 
   public function compareDatesAndGetbestDay($arrayOfDaysWithAllTheInfo){
-    //var_dump("Den kör");
+    $daysThatWorksWithAllOfThem = array();
     for ($i=0; $i < count($arrayOfDaysWithAllTheInfo) ; $i++) {
-      // var_dump(strtolower($arrayOfDaysWithAllTheInfo[0][1][$i]));
-      // var_dump(strtolower($arrayOfDaysWithAllTheInfo[1][1][$i]));
-      // var_dump(strtolower($arrayOfDaysWithAllTheInfo[2][1][$i]) );
-      //
-    //  var_dump($i);
+
       if(strtolower($arrayOfDaysWithAllTheInfo[0][1][$i]) == "ok" && strtolower($arrayOfDaysWithAllTheInfo[1][1][$i]) == "ok" && strtolower($arrayOfDaysWithAllTheInfo[2][1][$i]) == "ok"){
         if($arrayOfDaysWithAllTheInfo[0][0][$i] == "Friday"){
-          return "Fredag fungerar <br />";
+          array_push($daysThatWorksWithAllOfThem, "Fredag");
+
         }
         if($arrayOfDaysWithAllTheInfo[0][0][$i] == "Saturday"){
-          return  "Lördag fungerar <br />";
+            array_push($daysThatWorksWithAllOfThem, "Lördag");
         }
         if($arrayOfDaysWithAllTheInfo[0][0][$i] == "Sunday"){
-        return  "Söndag fungerar <br />";
+          array_push($daysThatWorksWithAllOfThem, "Söndag");
         }
       }
     }
-    return "Det finns ingen dag som alla tre är lediga :( <br />";
+    //var_dump($daysThatWorksWithAllOfThem);
+    return $daysThatWorksWithAllOfThem;
+    //echo "Det finns ingen dag som alla tre är lediga :( <br />";
   }
 }

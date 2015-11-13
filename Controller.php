@@ -15,9 +15,9 @@
 
     public function getLinksToCallenders()
     {
-      $this->compare->compareDatesAndGetbestDay($this->scrape->getThePersonsDates($this->scrape->getCalenderLinks()));
+      $this->scrape->getMovieDayLink($this->compare->compareDatesAndGetbestDay($this->scrape->getThePersonsDates($this->scrape->getCalenderLinks())));;
 
-      print_r($this->compare->compareDatesAndGetbestDay($this->scrape->getThePersonsDates($this->scrape->getCalenderLinks())));
+      //print_r($this->compare->compareDatesAndGetbestDay($this->scrape->getThePersonsDates($this->scrape->getCalenderLinks())));
       // echo "<pre>";
       //   print_r($this->scrape->getThePersonsDates($this->scrape->getCalenderLinks()));
       // echo "</pre>";

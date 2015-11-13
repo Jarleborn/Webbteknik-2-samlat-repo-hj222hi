@@ -10,8 +10,38 @@ class Scraper{
   }
   public function getURL()
   {
-    return "http://localhost:8080/calendar/";
+    return "http://localhost:8080";
   }
+
+  public function GetLinkToCalenders()
+  {
+    $items = $this->getDOM($this->getURL())->query('//ol //li //a');
+    $arrayOfLinks = array();
+    foreach ($items as $item) {
+    array_push($arrayOfLinks, $item);
+    }
+    foreach ($arrayOfLinks as $link) {
+      if($link->nodeValue == "Kalendrar"){
+        return $this->getURL().$link->getAttribute("href");
+      }
+    }
+  }
+
+  public function GetLinkToMovies()
+  {
+    $items = $this->getDOM($this->getURL())->query('//ol //li //a');
+    $arrayOfLinks = array();
+    foreach ($items as $item) {
+    array_push($arrayOfLinks, $item);
+    }
+    foreach ($arrayOfLinks as $link) {
+      if($link->nodeValue == "Stadens biograf!"){
+        return $this->getURL().$link->getAttribute("href");
+      }
+    }
+  }
+
+
   public function getHTML($url){
 
     $this->data = file_get_contents($url);
@@ -33,12 +63,28 @@ class Scraper{
   }
 
   public function getCalenderLinks(){
-    $items = $this->getDOM($this->getURL())->query('//ul //li //a');
+    $items = $this->getDOM($this->GetLinkToCalenders())->query('//ul //li //a');
     $arrayOfLinks = array();
     foreach ($items as $item) {
     array_push($arrayOfLinks, $item->getAttribute("href"));
     }
     //var_dump($arrayOfLinks);
+    return $arrayOfLinks;
+  }
+  public function getMovieDayLink($theDaysThatWorks){
+    $items = $this->getDOM($this->GetLinkToMovies())->query("//form /div /select[@id='day'] /option");
+//  var_dump($theDaysThatWorks);
+    $arrayOfLinks = array();
+    foreach ($items as $item) {
+    echo $item->nodeValue."";
+    echo $theDaysThatWorks[0]."<br />";
+      if(in_array($item->nodeValue, $theDaysThatWorks)){
+
+        array_push($arrayOfLinks, $item->nodeValue );
+      }
+    //array_push($arrayOfLinks, $item->getAttribute("href"));
+    }
+    var_dump($arrayOfLinks);
     return $arrayOfLinks;
   }
 
