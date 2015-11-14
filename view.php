@@ -4,12 +4,6 @@
    */
   class View
   {
-
-    function __construct()
-    {
-      # code...
-    }
-      //print_r($result[2]['time']);
     public function renderOutTheInformation($infoToRender){
 
       //TODO: Inoutfält

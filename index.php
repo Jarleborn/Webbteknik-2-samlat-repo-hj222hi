@@ -5,7 +5,7 @@
   include_once 'view.php';
 
   error_reporting(E_ALL);
-  ini_set('display_errors', 'off');
+  ini_set('display_errors', 'on');
 
   //phpinfo();
   $Compare = new Compare();

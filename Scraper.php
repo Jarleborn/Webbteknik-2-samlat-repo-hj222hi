@@ -128,37 +128,40 @@ class Scraper{
   {
 
     $araryWithInfoAboutMoviesAndDates = array();
-
+  //  var_dump($movies);
     foreach ($daysOK as $day) {
       foreach ($movies[0] as $movie) {
-        $var = $this->getHTML("http://localhost:8080/cinema/check?day=".$day."&movie=".$movie);
-        foreach (json_decode($var) as $key => $value) {
-          if($value->status == 1){
-            if ($value->movie == 01) {
-              $movieNameHolder = $movies[1][1];
-            }
-            elseif ($value->movie == 02) {
-              $movieNameHolder = $movies[1][2];
-            }
-            elseif ($value->movie == 03) {
-              $movieNameHolder = $movies[1][3];
-            }
-          $result[] = array(
-            "time" => $value->time,
-            "movieid" => $value->movie,
-            "movieName" =>$movieNameHolder,
-            "day" =>$day
+        //var_dump($movie);
+        if (isset($movie)) {
+          $var = $this->getHTML($this->GetLinkToMovies()."/check?day=".$day."&movie=".$movie);
+          //var_dump($var);
+          foreach (json_decode($var) as $value) {
+            if($value->status == 1){
+              if ($value->movie == 01) {
+                $movieNameHolder = $movies[1][1];
+              }
+              elseif ($value->movie == 02) {
+                $movieNameHolder = $movies[1][2];
+              }
+              elseif ($value->movie == 03) {
+                $movieNameHolder = $movies[1][3];
+              }
+            $result[] = array(
+              "time" => $value->time,
+              "movieid" => $value->movie,
+              "movieName" =>$movieNameHolder,
+              "day" =>$day
 
-          );}
-          array_push($araryWithInfoAboutMoviesAndDates, $result);
+            );}
+            array_push($araryWithInfoAboutMoviesAndDates, $result);
+        }
+
       }
       }
 
     }
 
-    // echo "<pre>";
-    //   print_r($result[2]['time']);
-    // echo "</pre>";
+
     return $result;
   }
 
@@ -176,7 +179,7 @@ class Scraper{
 
   public function GetPersonsOppinionOnDates($CalenderPage)
   {
-    $items = $this->getDOM("http://localhost:8080/calendar/".$CalenderPage)->query(' //td');
+    $items = $this->getDOM($this->GetLinkToCalenders()."/".$CalenderPage)->query(' //td');
     $arrayOfDays = array();
     foreach ($items as $item) {
     array_push($arrayOfDays, $item->nodeValue);
@@ -188,7 +191,7 @@ class Scraper{
   }
   public function GetDates($CalenderPage)
   {
-    $items = $this->getDOM("http://localhost:8080/calendar/".$CalenderPage)->query(' //th');
+    $items = $this->getDOM($this->GetLinkToCalenders()."/".$CalenderPage)->query(' //th');
     $arrayOfDays = array();
     foreach ($items as $item) {
     array_push($arrayOfDays, $item->nodeValue);
