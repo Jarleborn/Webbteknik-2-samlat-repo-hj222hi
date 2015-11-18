@@ -1,7 +1,5 @@
 <?php
-  /**
-   *
-   */
+
   class View
   {
     public function renderOutTheInformation($infoToRender){

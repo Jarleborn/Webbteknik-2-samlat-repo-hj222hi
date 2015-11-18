@@ -8,6 +8,7 @@ class Scraper{
   public function __construct(){
 
   }
+  //Hämtar URLen från rutan
   public function getURL()
   {
     if(isset($_GET['URL'])){
@@ -16,6 +17,7 @@ class Scraper{
     return $_GET['URL'];
   }
 
+  //Hämtar länken till kalendersidan
   public function GetLinkToCalenders()
   {
     $items = $this->getDOM($this->getURL())->query('//ol //li //a');
@@ -30,6 +32,7 @@ class Scraper{
     }
   }
 
+//Hämtar länken tll restaurang sidan
   public function GetLinkToResturant()
   {
     $items = $this->getDOM($this->getURL())->query('//ul //li //a');
@@ -48,6 +51,7 @@ class Scraper{
     return "http://46.101.232.43/dinner/";
   }
 
+//Hämtar länken till Bio sidan
   public function GetLinkToMovies()
   {
     $items = $this->getDOM($this->getURL())->query('//ol //li //a');
@@ -62,12 +66,12 @@ class Scraper{
     }
   }
 
-
+//CURLAR fram HTMLen
   public function getHTML($url){
     $this->data = file_get_contents($url);
     return $this->data;
   }
-
+//Initsierar ett DOM object och ett Cpath object med ovan nämnda HTML
   public function getDOM($link){
     $this->DOM = new DOMDocument();
 
@@ -78,6 +82,7 @@ class Scraper{
     }
   }
 
+//Hämtar länkarna till kalendenrna
   public function getCalenderLinks(){
     $items = $this->getDOM($this->GetLinkToCalenders())->query('//ul //li //a');
     $arrayOfLinks = array();
@@ -86,6 +91,8 @@ class Scraper{
     }
     return $arrayOfLinks;
   }
+
+  //Hämtar ut länkarna till alla filmer och sorterar ut dom som alla är lediga på
   public function getMovieDayLink($theDaysThatWorks){
     $items = $this->getDOM($this->GetLinkToMovies())->query("//form /div /select[@id='day'] /option");
     $arrayOfLinks = array();
@@ -97,6 +104,7 @@ class Scraper{
     return $arrayOfLinks;
   }
 
+//Hämtar ut FIlmer och hurvida dom är bokade eller inte
   public function getMovieLink(){
     $items = $this->getDOM($this->GetLinkToMovies())->query("//div /div /form /select[@id='movie'] /option");
 //  var_dump($theDaysThatWorks);
@@ -112,6 +120,7 @@ class Scraper{
     return $arrayWithBothLinkAndNames;
   }
 
+//Hämtar dagar och tider där det är lediga bord på restaurangen
   public function getFreeDaysAtTheResturant(){
     $items = $this->getDOM($this->GetLinkToResturant())->query('//input[@type="radio"]');
     $arrayOfdaysAndTimesThatAreFreeAtTheResturant = array();
@@ -142,6 +151,7 @@ class Scraper{
     return $arrayOfdaysAndTimesThatAreFreeAtTheResturant;
   }
 
+//Hämtar gör ett anrop som hämtar ut info om filmerna och sprar ner det
   public function getMovies($daysOK, $movies)
   {
     $araryWithInfoAboutMoviesAndDates = array();
@@ -179,6 +189,7 @@ class Scraper{
     return $result;
   }
 
+//Hämtar personernas åsikter om olika dagar och sparar ner det med dagarna
   public function getThePersonsDates($ArrayOfLinksToCallenders)
   {
     $arrayOfPersons= array();
@@ -190,7 +201,7 @@ class Scraper{
 
     return $arrayOfPersons;
   }
-
+//Hämtar personernas åsikter om olika dagar
   public function GetPersonsOppinionOnDates($CalenderPage)
   {
     $items = $this->getDOM($this->GetLinkToCalenders()."/".$CalenderPage)->query(' //td');
@@ -200,6 +211,8 @@ class Scraper{
     }
     return $arrayOfDays;
   }
+
+  //Hämtar ut dagarna
   public function GetDates($CalenderPage)
   {
     $items = $this->getDOM($this->GetLinkToCalenders()."/".$CalenderPage)->query(' //th');
