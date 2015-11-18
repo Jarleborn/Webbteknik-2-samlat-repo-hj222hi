@@ -10,14 +10,10 @@ class Scraper{
   }
   public function getURL()
   {
-    //if(isset($_GET[URL])){
-		//$var = "hoj";
-		//echo "hoj";
     if(isset($_GET['URL'])){
 		return $_GET['URL'];
     }
     return $_GET['URL'];
-    //return "http://localhost:8080";
   }
 
   public function GetLinkToCalenders()
@@ -37,7 +33,6 @@ class Scraper{
   public function GetLinkToResturant()
   {
     $items = $this->getDOM($this->getURL())->query('//ul //li //a');
-    //var_dump($items);
     $arrayOfLinks = array();
     foreach ($items as $item) {
     array_push($arrayOfLinks, $item);
@@ -50,7 +45,7 @@ class Scraper{
 
     }
     //TODO fixa detta bre
-    return "http://localhost:8080/dinner/";
+    return "http://46.101.232.43/dinner/";
   }
 
   public function GetLinkToMovies()
@@ -69,22 +64,17 @@ class Scraper{
 
 
   public function getHTML($url){
-    //var_dump($url);
     $this->data = file_get_contents($url);
     return $this->data;
   }
 
   public function getDOM($link){
-    //var_dump($files);
     $this->DOM = new DOMDocument();
 
     if ($this->DOM->loadHTML($this->getHTML($link))) {
       $this->xpath = new DOMXPath($this->DOM);
 
       return $this->xpath;
-    }
-    else {
-      //die("hoj hoj nu blev det fel");
     }
   }
 
@@ -94,23 +84,16 @@ class Scraper{
     foreach ($items as $item) {
     array_push($arrayOfLinks, $item->getAttribute("href"));
     }
-    //var_dump($arrayOfLinks);
     return $arrayOfLinks;
   }
   public function getMovieDayLink($theDaysThatWorks){
     $items = $this->getDOM($this->GetLinkToMovies())->query("//form /div /select[@id='day'] /option");
-//  var_dump($theDaysThatWorks);
     $arrayOfLinks = array();
     foreach ($items as $item) {
-  //  echo $item->nodeValue."";
-    //echo $theDaysThatWorks[0]."<br />";
       if(in_array($item->nodeValue, $theDaysThatWorks)){
-
         array_push($arrayOfLinks, $item->getAttribute("value") );
       }
-    //array_push($arrayOfLinks, $item->getAttribute("href"));
     }
-  //  var_dump($arrayOfLinks);
     return $arrayOfLinks;
   }
 
@@ -121,20 +104,16 @@ class Scraper{
     $arrayOfNames = array();
     $arrayWithBothLinkAndNames = array();
     foreach ($items as $item) {
-      //var_dump("<br />".$item->getAttribute("value")."<br />");
-    array_push($arrayOfLinks, $item->getAttribute("value"));
-    array_push($arrayOfNames, $item->nodeValue);
+      array_push($arrayOfLinks, $item->getAttribute("value"));
+      array_push($arrayOfNames, $item->nodeValue);
     }
     array_push($arrayWithBothLinkAndNames, $arrayOfLinks);
     array_push($arrayWithBothLinkAndNames, $arrayOfNames);
-    //var_dump($arrayOfLinks);
     return $arrayWithBothLinkAndNames;
   }
 
-//TOD: kolla om denna anvädns
   public function getFreeDaysAtTheResturant(){
     $items = $this->getDOM($this->GetLinkToResturant())->query('//input[@type="radio"]');
-  //  var_dump($items);
     $arrayOfdaysAndTimesThatAreFreeAtTheResturant = array();
     $arrayOfTImes = array();
     $arrayOfDays = array();
@@ -165,15 +144,11 @@ class Scraper{
 
   public function getMovies($daysOK, $movies)
   {
-
     $araryWithInfoAboutMoviesAndDates = array();
-  //var_dump($movies);
     foreach ($daysOK as $day) {
       foreach ($movies[0] as $movie) {
-        //var_dump($movie);
         if (isset($movie)) {
           $var = $this->getHTML($this->GetLinkToMovies()."/check?day=".$day."&movie=".$movie);
-          //var_dump($var);
           foreach (json_decode($var) as $value) {
             if($value->status == 1){
               if ($value->movie == 01) {
@@ -195,7 +170,7 @@ class Scraper{
             array_push($araryWithInfoAboutMoviesAndDates, $result);
         }
 
-      }
+        }
       }
 
     }
@@ -223,9 +198,6 @@ class Scraper{
     foreach ($items as $item) {
     array_push($arrayOfDays, $item->nodeValue);
     }
-    // echo "<pre>";
-    //   print_r($arrayOfDays);
-    // echo "</pre>";
     return $arrayOfDays;
   }
   public function GetDates($CalenderPage)
@@ -235,9 +207,6 @@ class Scraper{
     foreach ($items as $item) {
     array_push($arrayOfDays, $item->nodeValue);
     }
-    // echo "<pre>";
-    //   print_r($arrayOfDays);
-    // echo "</pre>";
     return $arrayOfDays;
   }
 }

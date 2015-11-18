@@ -5,10 +5,7 @@
   class View
   {
     public function renderOutTheInformation($infoToRender){
-
-
-
-      echo "<ul>";
+  echo "<ul>";
       for ($i=0; $i < count($infoToRender) ; $i++) {
         if($infoToRender[$i]['day'] == 01){
           $day = "Fredag";
@@ -29,7 +26,6 @@
     public function renderoutresturnetInfo($resturntTImeAndDays)
     {
       echo "Ni kan ju bara Lördag och då kan man gå på resturang följande tider";
-      //var_dump($resturntTImeAndDays[0]);
       for ($i =0; $i < count($resturntTImeAndDays[0]); $i++) {
         echo "<br />";
         echo "klockan ".$resturntTImeAndDays[$i][1];

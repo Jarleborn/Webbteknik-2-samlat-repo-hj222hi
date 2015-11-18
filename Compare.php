@@ -25,9 +25,7 @@ class compare
         }
       }
     }
-    //var_dump($daysThatWorksWithAllOfThem);
     return $daysThatWorksWithAllOfThem;
-    //echo "Det finns ingen dag som alla tre är lediga :( <br />";
   }
 
   public function compareDaysAndRsturantDaysAndGetTimes($DoubbleArrayThere0IsTimesAnd1IsDays, $DaysThatWorks)
@@ -45,11 +43,6 @@ class compare
            }
       }
       array_push($ArrayFOrSPecificDay,$result );
-      //array_push($ArrayWithDaysAndTimesThatWorks, $ArrayFOrSPecificDay);
-      // echo "<pre>";
-      // print_r($ArrayFOrSPecificDay);
-      // echo "</pre>";
-
        return $ArrayFOrSPecificDay;
   }
 
