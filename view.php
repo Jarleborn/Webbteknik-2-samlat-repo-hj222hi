@@ -6,7 +6,7 @@
   {
     public function renderOutTheInformation($infoToRender){
 
-      //TODO: Inoutfält
+
 
       echo "<ul>";
       for ($i=0; $i < count($infoToRender) ; $i++) {
@@ -24,5 +24,17 @@
       }
       echo "</ul>";
 
+    }
+
+    public function renderoutresturnetInfo($resturntTImeAndDays)
+    {
+      echo "Ni kan ju bara Lördag och då kan man gå på resturang följande tider";
+      //var_dump($resturntTImeAndDays[0]);
+      for ($i =0; $i < count($resturntTImeAndDays[0]); $i++) {
+        echo "<br />";
+        echo "klockan ".$resturntTImeAndDays[$i][1];
+      }
+      echo "<br />";echo "<br />";echo "<br />";echo "<br />";echo "<br />";
+      echo "Sen har ju Donken öppet dygnet runt typ.....";
     }
   }

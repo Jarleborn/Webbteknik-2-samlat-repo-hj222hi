@@ -29,4 +29,43 @@ class compare
     return $daysThatWorksWithAllOfThem;
     //echo "Det finns ingen dag som alla tre är lediga :( <br />";
   }
+
+  public function compareDaysAndRsturantDaysAndGetTimes($DoubbleArrayThere0IsTimesAnd1IsDays, $DaysThatWorks)
+  {
+    $ArrayFOrSPecificDay = array();
+    foreach ($DaysThatWorks as $DayThatWork) {
+
+      for ($i=0; $i < count($DoubbleArrayThere0IsTimesAnd1IsDays)  ; $i++) {
+           if($DayThatWork == $DoubbleArrayThere0IsTimesAnd1IsDays[$i][0]){
+             $result[] = array(
+               "time" => $DoubbleArrayThere0IsTimesAnd1IsDays[$i][1],
+               "day" => $DoubbleArrayThere0IsTimesAnd1IsDays[$i][0]
+                );
+              }
+           }
+      }
+      array_push($ArrayFOrSPecificDay,$result );
+      //array_push($ArrayWithDaysAndTimesThatWorks, $ArrayFOrSPecificDay);
+      // echo "<pre>";
+      // print_r($ArrayFOrSPecificDay);
+      // echo "</pre>";
+
+       return $ArrayFOrSPecificDay;
+  }
+
+  // public function CompareTimes($MovieResultArray, $resturntTImeAndDays)
+  // {
+  //   echo "<pre>";
+  //   print_r($MovieResultArray);
+  //   echo "</pre>";
+  //   echo "<pre>";
+  //   print_r($resturntTImeAndDays);
+  //   echo "</pre>";
+  //
+  //
+  //   for ($i=0; $i < count($MovieResultArray); $i++) {
+  //     if($MovieResultArray[$i]["time"]
+  //     # code...
+  //   }
+  // }
 }

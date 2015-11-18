@@ -34,6 +34,25 @@ class Scraper{
     }
   }
 
+  public function GetLinkToResturant()
+  {
+    $items = $this->getDOM($this->getURL())->query('//ul //li //a');
+    //var_dump($items);
+    $arrayOfLinks = array();
+    foreach ($items as $item) {
+    array_push($arrayOfLinks, $item);
+    }
+    foreach ($arrayOfLinks as $link) {
+      if($link->nodeValue != "Kalendrar" && $link->nodeValue != "Stadens biograf!"){
+        return $this->getURL().$link->getAttribute("href");
+
+      }
+
+    }
+    //TODO fixa detta bre
+    return "http://localhost:8080/dinner/";
+  }
+
   public function GetLinkToMovies()
   {
     $items = $this->getDOM($this->getURL())->query('//ol //li //a');
@@ -50,7 +69,7 @@ class Scraper{
 
 
   public function getHTML($url){
-
+    //var_dump($url);
     $this->data = file_get_contents($url);
     return $this->data;
   }
@@ -112,23 +131,43 @@ class Scraper{
     return $arrayWithBothLinkAndNames;
   }
 
-  public function getMovieName(){
-    $items = $this->getDOM($this->GetLinkToMovies())->query("//div /div /form /select[@id='movie'] /option");
-//  var_dump($theDaysThatWorks);
-    $arrayOfNames = array();
+//TOD: kolla om denna anvädns
+  public function getFreeDaysAtTheResturant(){
+    $items = $this->getDOM($this->GetLinkToResturant())->query('//input[@type="radio"]');
+  //  var_dump($items);
+    $arrayOfdaysAndTimesThatAreFreeAtTheResturant = array();
+    $arrayOfTImes = array();
+    $arrayOfDays = array();
+    $arrayOfRenamedDays = array();
+
+
     foreach ($items as $item) {
-      //var_dump("<br />".$item->getAttribute("value")."<br />");
-    array_push($arrayOfNames, $item->nodeValue);
+        $ArrayWithDay = array();
+      $ArrayWithExplodedeDaysAndTImes = array();
+
+      array_push($ArrayWithExplodedeDaysAndTImes, str_split($item->getAttribute("value"), 3));
+      $timeConciller = "".$ArrayWithExplodedeDaysAndTImes[0][1]."".$ArrayWithExplodedeDaysAndTImes[0][2]."";
+
+        if($ArrayWithExplodedeDaysAndTImes[0][0] == "fre"){
+          array_push($ArrayWithDay,"01");
+        }
+        elseif($ArrayWithExplodedeDaysAndTImes[0][0] == "lor"){
+          array_push($ArrayWithDay,"02");
+        }
+        elseif($ArrayWithExplodedeDaysAndTImes[0][0] == "son"){
+          array_push($ArrayWithDay,"03");
+        }
+      array_push($ArrayWithDay, $timeConciller);
+      array_push($arrayOfdaysAndTimesThatAreFreeAtTheResturant, $ArrayWithDay );
     }
-    //var_dump($arrayOfLinks);
-    return $arrayOfNames;
+    return $arrayOfdaysAndTimesThatAreFreeAtTheResturant;
   }
 
   public function getMovies($daysOK, $movies)
   {
 
     $araryWithInfoAboutMoviesAndDates = array();
-  //  var_dump($movies);
+  //var_dump($movies);
     foreach ($daysOK as $day) {
       foreach ($movies[0] as $movie) {
         //var_dump($movie);

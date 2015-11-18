@@ -6,6 +6,7 @@
 
   error_reporting(E_ALL);
   ini_set('display_errors', 'on');
+  ini_set('max_execution_time', 300);
 
   //phpinfo();
   $Compare = new Compare();
