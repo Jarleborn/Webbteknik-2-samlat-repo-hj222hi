@@ -98,13 +98,17 @@ vid inloggining så krypteras eller haschas lösenordet. Detta ser man om man ko
 Är att tillexempel använda ett salt som man defingerar och sedan kör lösenordet igenom. [4]
 
 
-## Prestandaproblem Det finns både inline scripts och inline css detta gör att sidan blir långsammare att ladda. Hade allt legat i en fil så hade det gått mycekt snabbare att läsa in. Nu måste webläsaren gå igenom hela sidan och rendera olika saker om varandra och det tycker inte webläsaren om. Man går också en bättre structur om man delar upp olika saker i oliak filer beroedne på innehåll.
+## Prestandaproblem 
+
+Det finns både inline scripts och inline css detta gör att sidan blir långsammare att ladda. Hade allt legat i en fil så hade det gått mycekt snabbare att läsa in. Nu måste webläsaren gå igenom hela sidan och rendera olika saker om varandra och det tycker inte webläsaren om. Man går också en bättre structur om man delar upp olika saker i oliak filer beroedne på innehåll.
 
 Appliaktionen läser på alla sidor in två filer som heter MessageBoard.js och Message.js dessa används dock inte på alla sidor och detta gör att sidan skickar flemeddelanden. Detta gör att sidan skickar HTTP request ionödan vilket gör att sidan blir långsammare.
 
 Det finns även javascriptfiler som laddas in i headern, så borde det inte göras. Dom borde laddas in i botten så att alla HTML renderas innan javascripten laddas. Sidan hade också blivit snabbare om javascriptfilerna var minifierade för då hade det helt enklet varit mindre kod att läsa in. Ett bra verktyg för detta är http://jscompress.com/ där kopierar man in sin kod och så renderar dom om den till en fil med bara en rad.
 
-## Mina Egna övergripande reflektioner Denna uppgiften har varit väldigt rolig, det är ju lite av en pojkdröm att kunna hacka. Det har också varit väldigt givande att prova då det skapat en större förståelse för hur lätt det är att bryta igenom dålig kod. En sak som gör mig lite nervös var att jag tycket det var svårt att hitta prestanda problem. Och det känns som att jag bara har pekat ut dom självklar och jag misstänker att det finns fler. Men jag har läst på vilekt gjorde att jag hittade lite till och jag tror att jag kommer bli en bättre kdoare om jag fortsätter läsa på.
+## Mina Egna övergripande reflektioner 
+
+Denna uppgiften har varit väldigt rolig, det är ju lite av en pojkdröm att kunna hacka. Det har också varit väldigt givande att prova då det skapat en större förståelse för hur lätt det är att bryta igenom dålig kod. En sak som gör mig lite nervös var att jag tycket det var svårt att hitta prestanda problem. Och det känns som att jag bara har pekat ut dom självklar och jag misstänker att det finns fler. Men jag har läst på vilekt gjorde att jag hittade lite till och jag tror att jag kommer bli en bättre kdoare om jag fortsätter läsa på.
 
 ### Källor
 
