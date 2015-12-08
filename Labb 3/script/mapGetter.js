@@ -10,4 +10,11 @@ function initMap() {
   });
 }
 
-window.onload = initMap();
+function getRadioInfo(){
+  var xhttp = new XMLHttpRequest();
+ xhttp.open("GET", "http://localhost:1312/", false);
+ xhttp.send();
+ console.log(xhttp.responseText);
+}
+
+window.onload = getRadioInfo();
