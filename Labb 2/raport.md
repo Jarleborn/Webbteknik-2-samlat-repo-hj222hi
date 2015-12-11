@@ -4,6 +4,25 @@ Hampus Jarleborn - HJ222HI
 
 ## Säkerhetsproblem
 
+
+## Session Hijacking
+
+##### Beskrivning
+
+Session Hijacking är när en "hacker"-användare stjäler en annan användares session, detta kan tillexempel görs genom att man lurar dom att klicka på en länk som i det dolda skickar vidare information om deras session och eller cookie till "hacker"-användaren. Denne kan sedan mata in session/cookie IDet i sin egen sesson och på så sätt ta över den andra användarens inlogging. [3]
+
+##### Förebyggande åtgärder
+
+Först och främst så kan måste man precis som med XSS validera allt väldigt noga. Det är också viktigt att man förstör sessionen när användaren loggar ut för då så loggas även "hacker"-användaren ut.
+
+#### I Labby Mezzage
+I Labby Mezzage kan man med hjälp av XSS stjäla användarens sessions föratt sedan användadet för att logga in.
+
+##### Förslag på lösning
+
+Som jag skrev ovan om XSS så behövd det valideras mera. Sen så behöver man förstöra sessionen när användaren loggas ut så att även "hacker"-användaren loggas ut.
+
+
 ## SQL Injections
 
 ##### Beskrivning

@@ -1,5 +1,5 @@
 var TrefficRapport;
 
-function setAndReturnTrafficRepportObject(date, exactlocation, latitude, longitude, subcategory, title, description) {
- return   TrefficRapport = {date: date, exactlocation:exactlocation, latitude:latitude, longitude: longitude, subcategory:subcategory, title:title, description:description};
+function setAndReturnTrafficRepportObject(date, exactlocation, latitude, longitude, category, title, description, id) {
+ return   TrefficRapport = {date: date, exactlocation:exactlocation, latitude:latitude, longitude: longitude, category:category, title:title, description:description, id:id};
 }
