@@ -4,14 +4,14 @@
   var trafficMessages;
   var marker ;
 
-function initMap() {
+function initMap(id) {
 
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 62.00, lng: 15.00},
     zoom: 6
   });
-loopTheShit();
+loopTheShit(id);
 
 }
 
@@ -41,9 +41,39 @@ function getRadioInfo(){
  xhttp.send();
  trafficMessages = JSON.parse(xhttp.responseText);
  console.log(JSON.parse(trafficMessages));
+initButtons();
+
 }
 
-function loopTheShit() {
+function initButtons() {
+
+    document.getElementById(0).addEventListener("click",function(){
+      //console.log(i);
+      initMap();
+    });
+    document.getElementById(1).addEventListener("click",function(){
+    //  console.log(i);
+      initMap(0);
+    });
+    document.getElementById(2).addEventListener("click",function(){
+      //console.log(i);
+      initMap(1);
+    });
+    document.getElementById(3).addEventListener("click",function(){
+      //console.log(i);
+      initMap(2);
+    });
+    document.getElementById(4).addEventListener("click",function(){
+      //console.log(i);
+      initMap(3);
+    });
+
+
+}
+
+function loopTheShit(id) {
+  emptyList();
+  console.log(id);
     for (var message in JSON.parse(trafficMessages)["messages"]) {
     var result =  setAndReturnTrafficRepportObject(
         JSON.parse(trafficMessages)["messages"][message]["createddate"],
@@ -54,20 +84,44 @@ function loopTheShit() {
         JSON.parse(trafficMessages)["messages"][message]["title"],
         JSON.parse(trafficMessages)["messages"][message]["description"],
         JSON.parse(trafficMessages)["messages"][message]["id"]);
-        addMarker(result);
-        console.log(marker);
-        putToList(result);
+        sortOutCategorys(id, result );
 
 
 
 
 
-      console.log("lat" + result);
+      //console.log("lat" + result);
       // console.log("long"+ result.longitude);
     }
+    //console.log(result)
+}
+function sortOutCategorys(category, result) {
+  //  console.log(category);
+  // console.log(result);
+  if(category != null){
+    //  console.log(res);
+      if(result.category == category){
+        console.log("true")
+        addMarker(result);
+        putToList(result);
+      }
+    }
+    else{
+      addMarker(result);
+      putToList(result);
+    }
+
+  }
+
+  // body...
+function emptyList() {
+  var list = document.querySelector("#list");
+  list.textContent = null;
 }
 
+
 function putToList(result) {
+
   var list = document.querySelector("#list");
   var listItem = document.createElement("li");
   listItem.setAttribute("id", result.id);
