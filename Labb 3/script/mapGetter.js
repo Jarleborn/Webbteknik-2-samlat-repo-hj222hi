@@ -24,15 +24,22 @@ function addMarker(result){
 
  });
 
- var infowindow = new google.maps.InfoWindow({
-    content: "<h2>" + result.title +"</h2>v <i>" + result.date + "</i><br /><p>" + result.description + "</p><br /><i>" + result.subcategory +"</i>"
-  });
+ setInfoWindow(marker, result)
+}
 
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+function setInfoWindow(marker, result) {
+  var infowindow = new google.maps.InfoWindow({
+     content: "<h2>" + result.title +"</h2>v <i>" + result.date + "</i><br /><p>" + result.description + "</p><br /><i>" + result.subcategory +"</i>"
+   });
 
-
+   marker.addListener('click', function() {
+     console.log(infowindow != null)
+     if (infowindow != null) {
+       console.log(infowindow.close())
+      infowindow.close();
+  }
+     infowindow.open(map, marker);
+   });
 }
 
 function getRadioInfo(){
@@ -75,12 +82,17 @@ function loopTheShit(id) {
   emptyList();
   console.log(id);
     for (var message in JSON.parse(trafficMessages)["messages"]) {
+      var predate = new Date(parseInt(JSON.parse(trafficMessages)["messages"][message]["createddate"].replace("/Date(", "").replace(")/",""), 10));
+       //new Date(JSON.parse(trafficMessages)["messages"][message]["createddate"]);
+      date = setAndReturnDateObject(predate.getDate(),predate.getMonth(),predate.getFullYear());
+      console.log(date);
     var result =  setAndReturnTrafficRepportObject(
-        JSON.parse(trafficMessages)["messages"][message]["createddate"],
+        date,
         JSON.parse(trafficMessages)["messages"][message]["exactlocation"],
         JSON.parse(trafficMessages)["messages"][message]["latitude"],
         JSON.parse(trafficMessages)["messages"][message]["longitude"],
         JSON.parse(trafficMessages)["messages"][message]["category"],
+        JSON.parse(trafficMessages)["messages"][message]["subcategory"],
         JSON.parse(trafficMessages)["messages"][message]["title"],
         JSON.parse(trafficMessages)["messages"][message]["description"],
         JSON.parse(trafficMessages)["messages"][message]["id"]);
@@ -90,7 +102,7 @@ function loopTheShit(id) {
 
 
 
-      //console.log("lat" + result);
+      console.log(result.date.month);
       // console.log("long"+ result.longitude);
     }
     //console.log(result)
@@ -126,7 +138,7 @@ function putToList(result) {
   var listItem = document.createElement("li");
   listItem.setAttribute("id", result.id);
   toggleBounce(listItem, marker);
-  listItem.textContent  = result.title;
+  listItem.textContent  = result.title + " "+ result.date;
   list.appendChild(listItem);
 
 
