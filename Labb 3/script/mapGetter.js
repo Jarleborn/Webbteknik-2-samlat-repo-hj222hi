@@ -6,7 +6,7 @@
   var infoWindows = [];
   var preSortArray = [];
   var markers = [];
-function initMap(id) {
+  function initMap(id) {
 
 
   map = new google.maps.Map(document.getElementById('map'), {
@@ -61,11 +61,20 @@ function setInfoWindow(marker, result) {
 }
 
 function getRadioInfo(){
-  var xhttp = new XMLHttpRequest();
- xhttp.open("GET", "http://localhost:1312/", false);
- xhttp.send();
- trafficMessages = JSON.parse(xhttp.responseText);
- console.log(JSON.parse(trafficMessages));
+  //console.log("return fata är: "+returnData());
+  if(returnData() == undefined){
+    console.log("Detta ska bara hända en gång")
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "http://localhost:1312/", false);
+    xhttp.send();
+    saveData(JSON.parse(xhttp.responseText))
+
+  }
+  trafficMessages = returnData()
+//  console.log("trafikmessage är: "+trafficMessages)
+console.log("Detta kan hända hur många gåner som helst");
+ //return returnData()
+ //console.log(JSON.parse(trafficMessages));
 initButtons();
 
 }
@@ -125,7 +134,7 @@ function loopTheShit(id) {
     //emptyList();
 
     gatherAndSortResults(preSortArray);
-    console.log(preSortArray)
+  //  console.log(preSortArray)
   //  preSortArray=[];
 }
 function sortOutCategorys(category, result) {
@@ -149,8 +158,8 @@ function emptyList() {
 
   var list = document.querySelector("ol");
   list.innerText = null;
-  console.log(list);
-  console.log(list.childNodes);
+  // console.log(list);
+  // console.log(list.childNodes);
 
   for(var i = 0; i < list.childNodes.length; i++){
     list.removeChild(list.childNodes[i])
