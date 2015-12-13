@@ -18,17 +18,19 @@ div{
 }
 #listWrap{
   width: 18%;
-      float: left;
-      margin: 0;
-      padding: 0;
-      position: relative;
-      left: 0px;
-      height: 88%;
-      background-color: darkred;
-      color: white;
-      font-size: 23px;
-      font-family: arial;
-      padding-left: 1%;
+float: left;
+margin: 0;
+padding: 10px;
+position: relative;
+left: 0px;
+height: 88%;
+background-color: darkred;
+color: white;
+font-size: 18px;
+font-family: arial;
+padding-left: 1%;
+height: 86.3%;
+overflow-y: scroll;
 }
 .navlink{
       float: left;

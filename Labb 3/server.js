@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 
     getResponse(function(result){
         res.json(JSON.stringify(result));
-    }, "http://api.sr.se/api/v2/traffic/messages?format=json");
+    }, "http://api.sr.se/api/v2/traffic/messages?pagination=false&format=json");
 
 
 });

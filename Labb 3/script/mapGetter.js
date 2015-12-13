@@ -3,7 +3,9 @@
   var map;
   var trafficMessages;
   var marker ;
-
+  var infoWindows = [];
+  var preSortArray = [];
+  var markers = [];
 function initMap(id) {
 
 
@@ -11,7 +13,7 @@ function initMap(id) {
     center: {lat: 62.00, lng: 15.00},
     zoom: 6
   });
-loopTheShit(id);
+loopTheShit();
 
 }
 
@@ -23,23 +25,39 @@ function addMarker(result){
    title: result.title
 
  });
-
+ markers.push(marker);
  setInfoWindow(marker, result)
 }
-
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+function clearMarkers() {
+  setMapOnAll(null);
+}
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
 function setInfoWindow(marker, result) {
+
   var infowindow = new google.maps.InfoWindow({
      content: "<h2>" + result.title +"</h2>v <i>" + result.date + "</i><br /><p>" + result.description + "</p><br /><i>" + result.subcategory +"</i>"
    });
+   infoWindows.push(infowindow);
+  // console.log(infoWindows);
 
    marker.addListener('click', function() {
-     console.log(infowindow != null)
-     if (infowindow != null) {
-       console.log(infowindow.close())
-      infowindow.close();
-  }
-     infowindow.open(map, marker);
-   });
+     for(var i = 0; i < infoWindows.length; i++){
+       if (infoWindows[i] != null) {
+         infoWindows[i].close();
+       }
+     }
+       infowindow.open(map, marker);
+
+      });
+
 }
 
 function getRadioInfo(){
@@ -55,38 +73,43 @@ initButtons();
 function initButtons() {
 
     document.getElementById(0).addEventListener("click",function(){
-      //console.log(i);
-      initMap();
+      emptyList();
+      deleteMarkers();
+      loopTheShit();
     });
     document.getElementById(1).addEventListener("click",function(){
-    //  console.log(i);
-      initMap(0);
+      emptyList();
+      deleteMarkers();
+      loopTheShit(0);
     });
     document.getElementById(2).addEventListener("click",function(){
-      //console.log(i);
-      initMap(1);
+      emptyList();
+      deleteMarkers();
+      loopTheShit(1);
     });
     document.getElementById(3).addEventListener("click",function(){
-      //console.log(i);
-      initMap(2);
+      emptyList();
+      deleteMarkers();
+        loopTheShit(2);
     });
     document.getElementById(4).addEventListener("click",function(){
-      //console.log(i);
-      initMap(3);
+      emptyList();
+      deleteMarkers();
+      loopTheShit(3);
     });
 
 
 }
 
 function loopTheShit(id) {
-  emptyList();
-  console.log(id);
+//  emptyList();
+  //console.log(id);
     for (var message in JSON.parse(trafficMessages)["messages"]) {
       var predate = new Date(parseInt(JSON.parse(trafficMessages)["messages"][message]["createddate"].replace("/Date(", "").replace(")/",""), 10));
-       //new Date(JSON.parse(trafficMessages)["messages"][message]["createddate"]);
-      date = setAndReturnDateObject(predate.getDate(),predate.getMonth(),predate.getFullYear());
-      console.log(date);
-    var result =  setAndReturnTrafficRepportObject(
+      var  printAbleDate = setAndReturnDateObject(predate.getDate(),predate.getMonth(),predate.getFullYear());
+      date = predate.getTime() ;
+      var result =  setAndReturnTrafficRepportObject(
+      printAbleDate,
         date,
         JSON.parse(trafficMessages)["messages"][message]["exactlocation"],
         JSON.parse(trafficMessages)["messages"][message]["latitude"],
@@ -96,49 +119,67 @@ function loopTheShit(id) {
         JSON.parse(trafficMessages)["messages"][message]["title"],
         JSON.parse(trafficMessages)["messages"][message]["description"],
         JSON.parse(trafficMessages)["messages"][message]["id"]);
+        //preSortArray.push(result);
         sortOutCategorys(id, result );
-
-
-
-
-
-      console.log(result.date.month);
-      // console.log("long"+ result.longitude);
     }
-    //console.log(result)
+    //emptyList();
+
+    gatherAndSortResults(preSortArray);
+    console.log(preSortArray)
+  //  preSortArray=[];
 }
 function sortOutCategorys(category, result) {
-  //  console.log(category);
-  // console.log(result);
   if(category != null){
-    //  console.log(res);
       if(result.category == category){
-        console.log("true")
-        addMarker(result);
-        putToList(result);
+
+        preSortArray.push(result);
+        //gatherAndSortResults(result);
       }
     }
     else{
-      addMarker(result);
-      putToList(result);
+      //addMarker(result);
+      preSortArray.push(result);
+      //gatherAndSortResults(result);
     }
 
   }
 
   // body...
 function emptyList() {
-  var list = document.querySelector("#list");
-  list.textContent = null;
+
+  var list = document.querySelector("ol");
+  list.innerText = null;
+  console.log(list);
+  console.log(list.childNodes);
+
+  for(var i = 0; i < list.childNodes.length; i++){
+    list.removeChild(list.childNodes[i])
+  }
+  // x.innerHTML = null;
+  // console.log(x);
 }
 
+function gatherAndSortResults(result) {
+
+
+//  if(preSortArray.length == JSON.parse(trafficMessages)["messages"].length){
+    preSortArray.sort(function(a, b){return b.date-a.date});
+  //  emptyList();
+    for(var i = 0; i < preSortArray.length; i++ ){
+      addMarker(preSortArray[i]);
+       putToList(preSortArray[i]);
+    }
+    preSortArray = []
+}
 
 function putToList(result) {
-
+//  console.log(result);
   var list = document.querySelector("#list");
   var listItem = document.createElement("li");
   listItem.setAttribute("id", result.id);
   toggleBounce(listItem, marker);
-  listItem.textContent  = result.title + " "+ result.date;
+  //listItem.textContent  = " - "+ result.printAbleDate.day + "/"+ result.printAbleDate.month+"-"+result.printAbleDate.year;
+  listItem.textContent  = result.title;
   list.appendChild(listItem);
 
 
