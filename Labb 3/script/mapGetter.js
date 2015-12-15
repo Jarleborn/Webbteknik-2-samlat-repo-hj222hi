@@ -6,15 +6,13 @@
   var infoWindows = [];
   var preSortArray = [];
   var markers = [];
+
   function initMap(id) {
-
-
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 62.00, lng: 15.00},
-    zoom: 6
-  });
-loopTheShit();
-
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 62.00, lng: 15.00},
+      zoom: 6
+    });
+    loopTheResponseAndPassOn();
 }
 
 function addMarker(result){
@@ -23,7 +21,6 @@ function addMarker(result){
    map: map,
    animation: google.maps.Animation.DROP,
    title: result.title
-
  });
  markers.push(marker);
  setInfoWindow(marker, result)
@@ -43,11 +40,9 @@ function deleteMarkers() {
 function setInfoWindow(marker, result) {
 
   var infowindow = new google.maps.InfoWindow({
-     content: "<h2>" + result.title +"</h2>v <i>" + result.date + "</i><br /><p>" + result.description + "</p><br /><i>" + result.subcategory +"</i>"
+     content: "<h2>" + result.title +"</h2> <i>" + result.printAbleDate.day+"/"+result.printAbleDate.month+"-"+result.printAbleDate.year + "</i><br /><p>" + result.description + "</p><br /><i>" + result.subcategory +"</i>"
    });
    infoWindows.push(infowindow);
-  // console.log(infoWindows);
-
    marker.addListener('click', function() {
      for(var i = 0; i < infoWindows.length; i++){
        if (infoWindows[i] != null) {
@@ -55,28 +50,22 @@ function setInfoWindow(marker, result) {
        }
      }
        infowindow.open(map, marker);
-
       });
-
 }
 
 function getRadioInfo(){
-  //console.log("return fata är: "+returnData());
+  console.log("return data är: "+returnData());
   if(returnData() == undefined){
     console.log("Detta ska bara hända en gång")
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "http://localhost:1312/", false);
+    xhttp.open("GET", "http://hampusjarleborn.se:1312/", false);
     xhttp.send();
     saveData(JSON.parse(xhttp.responseText))
 
   }
   trafficMessages = returnData()
-//  console.log("trafikmessage är: "+trafficMessages)
-console.log("Detta kan hända hur många gåner som helst");
- //return returnData()
- //console.log(JSON.parse(trafficMessages));
-initButtons();
-
+  console.log("Detta kan hända hur många gåner som helst");
+  initButtons();
 }
 
 function initButtons() {
@@ -84,96 +73,75 @@ function initButtons() {
     document.getElementById(0).addEventListener("click",function(){
       emptyList();
       deleteMarkers();
-      loopTheShit();
+      loopTheResponseAndPassOn();
     });
     document.getElementById(1).addEventListener("click",function(){
       emptyList();
       deleteMarkers();
-      loopTheShit(0);
+      loopTheResponseAndPassOn(0);
     });
     document.getElementById(2).addEventListener("click",function(){
       emptyList();
       deleteMarkers();
-      loopTheShit(1);
+      loopTheResponseAndPassOn(1);
     });
     document.getElementById(3).addEventListener("click",function(){
       emptyList();
       deleteMarkers();
-        loopTheShit(2);
+        loopTheResponseAndPassOn(2);
     });
     document.getElementById(4).addEventListener("click",function(){
       emptyList();
       deleteMarkers();
-      loopTheShit(3);
+      loopTheResponseAndPassOn(3);
     });
 
 
 }
 
-function loopTheShit(id) {
-//  emptyList();
-  //console.log(id);
-    for (var message in JSON.parse(trafficMessages)["messages"]) {
-      var predate = new Date(parseInt(JSON.parse(trafficMessages)["messages"][message]["createddate"].replace("/Date(", "").replace(")/",""), 10));
+function loopTheResponseAndPassOn(id) {
+  var parsedTrafficMessages = JSON.parse(trafficMessages);
+    for (var message in parsedTrafficMessages["messages"]) {
+      var predate = new Date(parseInt(parsedTrafficMessages["messages"][message]["createddate"].replace("/Date(", "").replace(")/",""), 10));
       var  printAbleDate = setAndReturnDateObject(predate.getDate(),predate.getMonth(),predate.getFullYear());
       date = predate.getTime() ;
       var result =  setAndReturnTrafficRepportObject(
       printAbleDate,
         date,
-        JSON.parse(trafficMessages)["messages"][message]["exactlocation"],
-        JSON.parse(trafficMessages)["messages"][message]["latitude"],
-        JSON.parse(trafficMessages)["messages"][message]["longitude"],
-        JSON.parse(trafficMessages)["messages"][message]["category"],
-        JSON.parse(trafficMessages)["messages"][message]["subcategory"],
-        JSON.parse(trafficMessages)["messages"][message]["title"],
-        JSON.parse(trafficMessages)["messages"][message]["description"],
-        JSON.parse(trafficMessages)["messages"][message]["id"]);
-        //preSortArray.push(result);
+        parsedTrafficMessages["messages"][message]["exactlocation"],
+        parsedTrafficMessages["messages"][message]["latitude"],
+        parsedTrafficMessages["messages"][message]["longitude"],
+        parsedTrafficMessages["messages"][message]["category"],
+        parsedTrafficMessages["messages"][message]["subcategory"],
+        parsedTrafficMessages["messages"][message]["title"],
+        parsedTrafficMessages["messages"][message]["description"],
+        parsedTrafficMessages["messages"][message]["id"]);
         sortOutCategorys(id, result );
     }
-    //emptyList();
-
     gatherAndSortResults(preSortArray);
-  //  console.log(preSortArray)
-  //  preSortArray=[];
 }
 function sortOutCategorys(category, result) {
   if(category != null){
       if(result.category == category){
-
         preSortArray.push(result);
-        //gatherAndSortResults(result);
       }
     }
     else{
-      //addMarker(result);
       preSortArray.push(result);
-      //gatherAndSortResults(result);
     }
 
   }
-
-  // body...
 function emptyList() {
 
   var list = document.querySelector("ol");
   list.innerText = null;
-  // console.log(list);
-  // console.log(list.childNodes);
-
   for(var i = 0; i < list.childNodes.length; i++){
     list.removeChild(list.childNodes[i])
   }
-  // x.innerHTML = null;
-  // console.log(x);
 }
 
 function gatherAndSortResults(result) {
-
-
-//  if(preSortArray.length == JSON.parse(trafficMessages)["messages"].length){
     preSortArray.sort(function(a, b){return b.date-a.date});
-  //  emptyList();
     for(var i = 0; i < preSortArray.length; i++ ){
       addMarker(preSortArray[i]);
        putToList(preSortArray[i]);
@@ -182,7 +150,6 @@ function gatherAndSortResults(result) {
 }
 
 function putToList(result) {
-//  console.log(result);
   var list = document.querySelector("#list");
   var listItem = document.createElement("li");
   listItem.setAttribute("id", result.id);

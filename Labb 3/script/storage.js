@@ -10,12 +10,12 @@ function checkForStorage() {
 }
 
 function saveData(data) {
-    console.log("gubbe")
+  
     localStorage.radioData = data;
     //console.log(sessionStorage.radioData)
 
     setTimeout(function(){
-      console.log("horra");
+
       //trafficMessages=""
       localStorage.removeItem("radioData");
       getRadioInfo()
