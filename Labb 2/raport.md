@@ -126,26 +126,23 @@ vid inloggining så krypteras eller haschas lösenordet. Detta ser man om man ko
 
 Inline script och inline css bettyder att man i sin HTML markup bakar in script och style kod. EX:
     
-    <head>
-    <style>
-    body {
-        background-color: linen;
-    }
-    
-    h1 {
-        color: maroon;
-        margin-left: 40px;
-    } 
-    </style>
-    </head>
+    <h1 style="color:blue;margin-left:30px;">This is a heading.</h1>
 
 [5]
 
+Detta ska man undvika. För om man gör som ovanstående exemple så kan man inte cacha resurserna och då måste dom läsas in varjegång sidan updateras. Man vill också låta bli inline på grund av att om man användet inline så kommer renderingen av DOMelementetn stanna upp varje gång den hittar script och style kod och renderar den först. Detta gör att vissa element på sidan inte kommer gå att se förän efter sript och liknanade är klara. En till anledning att inte använda inline är att det gör det väldigt jobbigt för utveckalre att gå in och ändra i koden. [6]
+
 ##### Förebyggande åtgärder
+
+För att undvika inline så ska man använda det som heter external scripts och external stylesheets. Det innebär att man lägger script och style kod i serperata filer som man sedan laddar in. Style filer(CSS) ska laddas in toppen script i botten. Detta för att sidan ska se rätt ut och för att scripten kan ta längst tid och därför bör laddas in sist så att dom inte blockerar något annat från att laddas [6]
 
 #### I Labby Mezzage
 
+Används inline styles och inline scripts
+
 ##### Förslag på lösning
+
+Som jag skrev under Förebyggande åtgärder så bör man bryta ut det till separata filer 
 
 
 
@@ -171,3 +168,5 @@ Denna uppgiften har varit väldigt rolig, det är ju lite av en pojkdröm att ku
 [4] wikibooks, "Lösenordshantering - MD5 och salt", 19 februari 2010 [Online] Tillgänglig: https://sv.wikibooks.org/wiki/L%C3%B6senordshantering_-_MD5_och_salt [Hämtad: 4 december, 2015].
 
 [5]  w3schools, "CSS How To...", 19 februari 2010 [Online] Tillgänglig: http://www.w3schools.com/css/css_howto.asp [Hämtad: 3 januari, 2016].
+
+[6] tevie Souders,Kapitel 2 "Rule 8: Make JavaScript and CSS External8," i High Performance Web Sites: Essential Knowledge for Front-End Engineers,	O'Reilly Media , 2007, [E-bok] Tillgänglig: https://www.ebooks-it.net/ebook/high-performance-web-sites [Hämtad: 3  3 januari, 2016]
