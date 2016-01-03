@@ -120,9 +120,23 @@ vid inloggining så krypteras eller haschas lösenordet. Detta ser man om man ko
 ## Prestandaproblem
 
 
-## Session Hijacking
+## Inline scripts och inline css
 
 ##### Beskrivning
+
+Inline script och inline css bettyder att man i sin HTML markup bakar in script och style kod. EX:
+            <head>
+        <style>
+        body {
+            background-color: linen;
+        }
+        
+        h1 {
+            color: maroon;
+            margin-left: 40px;
+        } 
+        </style>
+        </head>[]
 
 ##### Förebyggande åtgärder
 
@@ -152,3 +166,5 @@ Denna uppgiften har varit väldigt rolig, det är ju lite av en pojkdröm att ku
 [3] OWASP foundation, "Top 10 2013-A2-Broken Authentication and Session Management", 23 Juni 2013 [Online] Tillgänglig: https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management [Hämtad: 3 december, 2015].
 
 [4] wikibooks, "Lösenordshantering - MD5 och salt", 19 februari 2010 [Online] Tillgänglig: https://sv.wikibooks.org/wiki/L%C3%B6senordshantering_-_MD5_och_salt [Hämtad: 4 december, 2015].
+
+[5]  w3schools, "CSS How To...", 19 februari 2010 [Online] Tillgänglig: http://www.w3schools.com/css/css_howto.asp [Hämtad: 3 januari, 2016].
