@@ -125,6 +125,7 @@ vid inloggining så krypteras eller haschas lösenordet. Detta ser man om man ko
 ##### Beskrivning
 
 Inline script och inline css bettyder att man i sin HTML markup bakar in script och style kod. EX:
+    
     <head>
     <style>
     body {
@@ -136,7 +137,9 @@ Inline script och inline css bettyder att man i sin HTML markup bakar in script 
         margin-left: 40px;
     } 
     </style>
-    </head>[5]
+    </head>
+
+[5]
 
 ##### Förebyggande åtgärder
 
